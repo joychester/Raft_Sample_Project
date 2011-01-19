@@ -1,0 +1,177 @@
+<html>
+<head>
+<title></title>
+<style type="text/css">
+.invocation-failed,  .test-failed  { background-color: #DD0000; }
+.invocation-percent, .test-percent { background-color: #006600; }
+.invocation-passed,  .test-passed  { background-color: #00AA00; }
+.invocation-skipped, .test-skipped { background-color: #CCCC00; }
+body {
+	background:#EFEFEF;
+	font-family: Arial, Helvetica, sans-serif;
+}
+h1,
+h2 {
+	text-align: center;
+}
+h2 span {
+	color: #666;
+}
+hr {
+	width: 98%
+}
+.report-border {
+	border: #999 solid 1px;
+	background: #FFF;
+	padding: 0px 10px 0px;
+}
+.Pass {
+	background: #BAFFA6;
+}
+.Error {
+	background: #FF7D7D;
+}
+.Skip {
+	background: #CCC;
+}
+.Fail {
+	background: red;
+}
+.error-row {
+	color: #FF7D7D;
+}
+.skip-row {
+	color: #CCC;
+}
+.fail-row {
+	color: red;
+}
+.overview-table {
+	width: 600px;
+	border-collapse: collapse;
+}
+.overview-table span {
+	font-size: 12px;
+	color: #333;
+	font-weight: normal;
+}
+.overview-table td {
+	text-align: center;
+	font-size: 13px;
+	font-weight: bold;
+}
+.total-cases {
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+.total-cases span {
+	font-weight: normal;
+}
+.total-time {
+	text-align: center;
+	font-size: 13px;
+	color: #333;
+	margin-top: 0px;
+}
+.total-time span {
+	color: #666;
+}
+.details-table {
+	border-collapse: collapse;
+	border: #999 solid 1px;
+	font-size: 13px;
+}
+.details-table th {
+	background: #EBEBEB;
+	text-align: left;
+}
+.details-table th,
+.details-table td {
+	border-right: #999 solid 1px;
+	border-bottom: #999 solid 1px;
+	padding: 2px 4px 2px;
+}
+.details-table span {
+	font-size: 11px;
+}
+.exception-info {
+	display: none;
+}
+#exception-display {
+	font-family: 'Courier New', Courier, monospace;
+	font-size: 12px;
+	border: #333 solid 1px;
+	background: #F2F2F2;
+	padding: 10px;
+	margin: 10px;
+	display: none;
+}
+#exception-display p {
+	margin-top: 0px;
+}
+</style>
+</head>
+<body>
+<div class='report-border'>
+  <h1>Report</h1>
+  <h2>Test Suite Name: <span>Demo</span></h2>
+  <hr />
+  <h3>Overview</h3>
+ <table class='overview-table' align='center'>
+  <tr>
+    <td class='pass' width='100%'>100%<span>(1)</span></td>
+      <td class='fail' width='0%'>0%<span>(0)</span></td>
+      <td class='error' width='0%'>0%<span>(0)</span></td>
+      <td class='skip' width='0%'>0%<span>(0)</span></td>
+ 		</tr>
+    <tr>
+      <td>Pass</td>
+      <td>Fail</td>
+      <td>Error</td>
+      <td>Skip</td>
+    </tr>
+  </table>
+  <p class='total-cases'>Total Cases: <span>1</span></p>
+  <p class='total-time'>Total Time: <span>(0d 0h 0m 13s)</span></p>
+  <hr />
+<h3>Details</h3>
+  <table class='details-table' align='center'>
+    <tr>
+      <th>Test Name</th>
+      <th>Test Case</th>
+      <th>Test Class</th>
+      <th>Start Time</th>
+      <th>Duration (mm:ss)</th>
+      <th>Result</th>
+      <th>ScreenShot</th>
+      <th>Exception</th>
+    </tr>
+    <tr>
+      <td rowspan='1'>Demo_test</td>
+      <td class=''><a href='logs/log_module1.feature1.GoogleTest.Test1().txt'>Test1</a></td>
+      <td class=''>module1.feature1.GoogleTest</td>
+      <td class=''>2011-01-18 14:52:29:637</td>
+      <td align='right' class=''>00:13</td>
+      <td class='Pass'>Pass</td>
+      <td class=''></td>
+      <td class=''>
+</tr><tr>
+</tr></table><div id='exception-display'></div></div>
+<br/><br/>
+<script type='text/javascript'>
+var currRef;
+function toggleException(ref) {
+	if (currRef == ref) {
+		// Hide
+		currRef = null;
+		document.getElementById('exception-display').style.display = 'none';
+	} else {
+		currRef = ref;
+		document.getElementById('exception-display').style.display = 'block';
+		document.getElementById('exception-display').innerHTML = ref.parentNode.getElementsByTagName('div').item(0).innerHTML;
+	}
+}
+</script>
+</body>
+</html>

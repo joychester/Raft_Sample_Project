@@ -1,0 +1,14 @@
+>>>
+2011-01-18 14:52:34.169: navigate to your input url: http://www.google.com/
+2011-01-18 14:52:38.622: after navigation,current url goto: <http://www.google.com.hk/> [Performance Timing]: 4515ms
+>>>
+2011-01-18 14:52:38.700: find element: "By.name: q"
+>>>
+2011-01-18 14:52:39.028: WebElement (id="" or name="q") value before changing: Null
+2011-01-18 14:52:39.888: WebElement value after changing : "Performance Test"
+>>>
+2011-01-18 14:52:39.934: find element: "By.name: btnG"
+>>>
+2011-01-18 14:52:40.122: click WebElement(id="" or name="btnG"), and its visible text: ""
+2011-01-18 14:52:42.185: after clicking on element,current Page url goto: <http://www.google.com.hk/search?hl=zh-CN&source=hp&q=Performance+Test&btnG=Google+%E6%90%9C%E7%B4%A2&meta=&aq=f&aqi=&aql=&oq=> [Performance Timing]: 1984ms
+2011-01-18 14:52:43.200: module1.feature1.GoogleTest.Test1 Method Success!

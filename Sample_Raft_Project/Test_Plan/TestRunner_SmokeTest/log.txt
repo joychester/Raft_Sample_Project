@@ -1,0 +1,16 @@
+
+=================run tests=================
+[TestNG] Running:
+  D:\Sample_project\Test_Plan\TestRunner_SmokeTest\Config.xml
+
+Test start: [TestResult: Test1 STATUS:STARTED METHOD:module1.feature1.GoogleTest.Test1()]
+
+Loading local parameters(..\Classes\module1\feature1_para\GoogleTest.xml) ...
+
+===============================================
+Demo
+Total tests run: 1, Failures: 0, Skips: 0
+===============================================
+
+errorCount:0
+failCount:0

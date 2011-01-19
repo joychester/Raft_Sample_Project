@@ -1,0 +1,11 @@
+<data>
+	<var name="browser">IE</var>
+	<var name="autoBrowserKiller">true</var>
+	<var name="TakingScreenshot">true</var>
+	<var name="arraySeparator">,</var>
+	<var name="globalRunCount">1</var>
+	
+	
+	<var name="username">demoadmin123</var>
+	<var name="pwd">p@ssw0rd1</var>
+</data>
