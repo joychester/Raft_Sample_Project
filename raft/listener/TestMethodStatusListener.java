@@ -77,19 +77,17 @@ public class TestMethodStatusListener extends TestListenerAdapter {
 		//Clean IE Browsers at first, if using IE as testing browser
 		try {
 			System.out.println("Test start: " + result);
-			if ((browserType).equalsIgnoreCase("IE") && isBrowerProcessExist("iexplore.exe")){
-				killBrowserProcess("iexplore.exe");
-				System.out.println("Exsiting IE Browser process Killed by Raft before testing!" );
-			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+			
+			//beta2 fixed following problem
+			//if ((browserType).equalsIgnoreCase("IE") && isBrowerProcessExist("iexplore.exe")){
+			//	killBrowserProcess("iexplore.exe");
+			//	System.out.println("Exsiting IE Browser process Killed by Raft before testing!" );
+			//}
 
-		WebDriverLoggingListener wdlListener = new WebDriverLoggingListener(this); //create an instance for every test method
-		result.setAttribute("wdlListener", wdlListener);
-		methodWDLListenerMapping.put(result.getMethod().getMethod(), wdlListener); //method <--> WDLListener mapping
-		
-		try {
+			WebDriverLoggingListener wdlListener = new WebDriverLoggingListener(this); //create an instance for every test method
+			result.setAttribute("wdlListener", wdlListener);
+			methodWDLListenerMapping.put(result.getMethod().getMethod(), wdlListener); //method <--> WDLListener mapping
+
 			createLogger(result.getMethod(), true);
 			wdlListener.setLogger(methodLoggerMapping.get(result.getMethod())); //notify logger
 			wdlListener.setTestResult(result);

@@ -12,10 +12,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.events.AbstractWebDriverEventListener;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.ITestResult;
-import org.openqa.selenium.OutputType.*;
-
 
 
 import raft.engine.TestEngine;
@@ -168,7 +165,7 @@ public class WebDriverLoggingListener extends AbstractWebDriverEventListener {
     
 	//take screen shot when occur Exception
 	public void onException(Throwable throwable, WebDriver driver) {
-		
+		try{
 			System.out.println("add error mapping2");
 			getTmsl().getMethodErrorSetting().add(tr);
 
@@ -180,6 +177,9 @@ public class WebDriverLoggingListener extends AbstractWebDriverEventListener {
 				
 				setDriver(null);
 			}
+		}catch (Throwable t){
+			// Log the exception and continue
+		}
     }
 	
 	private void logDuration() {
@@ -212,10 +212,9 @@ public class WebDriverLoggingListener extends AbstractWebDriverEventListener {
 		File tmpFile = null;
 		
 		//IE driver rewrite on beta1 version, getScreenshotAs method does not exist anymore
-		//if( driver instanceof InternetExplorerDriver ) {
-		//	tmpFile = ((InternetExplorerDriver)driver).getScreenshotAs(OutputType.FILE);
-		//} else 
-		if( driver instanceof FirefoxDriver ) {
+		if( driver instanceof InternetExplorerDriver ) {
+			tmpFile = ((InternetExplorerDriver)driver).getScreenshotAs(OutputType.FILE);
+		} else if( driver instanceof FirefoxDriver ) {
 			tmpFile = ((FirefoxDriver)driver).getScreenshotAs(OutputType.FILE);
 		} else if( driver instanceof ChromeDriver ) {
 			tmpFile = ((ChromeDriver)driver).getScreenshotAs(OutputType.FILE);
