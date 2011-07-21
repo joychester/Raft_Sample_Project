@@ -67,32 +67,17 @@ public class TestMethodStatusListener extends TestListenerAdapter {
 	public WebDriverLoggingListener getWebDriverLoggingListener(Method method) {  //called by GetWebDriverPlus.getLoggingWebDriver(), register this instance.
 		return methodWDLListenerMapping.get(method);
 	}
-	/**
-	 * New a WebDriverLoggingListener instance when test method start and update ITestResult info.
-	 * 
-	 * createLogger, startDaemonThread, load local parameters(load once for every test class), ...
-	 * 
+	
+	/*
+	 * Set up local parameter for each test class;
+	 * onStart will be Invoked after the test class is instantiated and before any configuration method is called.
 	 */
-	synchronized public void onTestStart(ITestResult result) {
-		//Clean IE Browsers at first, if using IE as testing browser
-		try {
-			System.out.println("Test start: " + result);
-			
-			//beta2 fixed following problem
-			//if ((browserType).equalsIgnoreCase("IE") && isBrowerProcessExist("iexplore.exe")){
-			//	killBrowserProcess("iexplore.exe");
-			//	System.out.println("Exsiting IE Browser process Killed by Raft before testing!" );
-			//}
+	public void onStart(ITestContext testContext){
+		
+		try{
+			ITestNGMethod[] arr = testContext.getAllTestMethods();
+			Class<?> clazz =  arr[0].getRealClass();
 
-			WebDriverLoggingListener wdlListener = new WebDriverLoggingListener(this); //create an instance for every test method
-			result.setAttribute("wdlListener", wdlListener);
-			methodWDLListenerMapping.put(result.getMethod().getMethod(), wdlListener); //method <--> WDLListener mapping
-
-			createLogger(result.getMethod(), true);
-			wdlListener.setLogger(methodLoggerMapping.get(result.getMethod())); //notify logger
-			wdlListener.setTestResult(result);
-			
-			Class<?> clazz = result.getMethod().getRealClass();
 			//load one map for one test class
 			if( classMapMapping.get(clazz) == null ) {
 				String className = clazz.getName();
@@ -109,8 +94,33 @@ public class TestMethodStatusListener extends TestListenerAdapter {
 				if( !new File(localParaFile).exists() ) {System.out.println("No local parameter file: " + localParaFile + " found."); return ; }
 				
 				System.out.println("Loading local parameters(" + localParaFile + ") ...");
+				
 				classMapMapping.put(clazz, XmlUtil.readXmlToMap(localParaFile, "//var", "name")); //test class <--> xml map data mapping
-			}
+			
+		}
+
+	}catch( Exception e ) { e.printStackTrace(); throw new RuntimeException(e); }
+	}
+	
+	/**
+	 * New a WebDriverLoggingListener instance when test method start and update ITestResult info.
+	 * 
+	 * createLogger, startDaemonThread, load local parameters(load once for every test class), ...
+	 * 
+	 */
+	synchronized public void onTestStart(ITestResult result) {
+		//Clean IE Browsers at first, if using IE as testing browser
+		try {
+			System.out.println("Test start: " + result);
+			
+			WebDriverLoggingListener wdlListener = new WebDriverLoggingListener(this); //create an instance for every test method
+			result.setAttribute("wdlListener", wdlListener);
+			methodWDLListenerMapping.put(result.getMethod().getMethod(), wdlListener); //method <--> WDLListener mapping
+
+			createLogger(result.getMethod(), true);
+			wdlListener.setLogger(methodLoggerMapping.get(result.getMethod())); //notify logger
+			wdlListener.setTestResult(result);
+			
 		}
 		catch( Exception e ) { e.printStackTrace(); throw new RuntimeException(e); }
 	}
@@ -223,11 +233,6 @@ public class TestMethodStatusListener extends TestListenerAdapter {
 					try {
 						finishLogger(tr.getMethod());
 						
-						if (killBrowserIfExistByBrowserType(browserType)){
-								System.out.println("Browser process(" + browserType + ") Killed by Raft on Test Finished!" );
-								System.out.println("Test Method: <" + tr.getMethod().getMethodName() + ">Success!");
-						}
-						
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -237,7 +242,16 @@ public class TestMethodStatusListener extends TestListenerAdapter {
 	
 	//Invoked after all the tests have run and all their Configuration methods have been called. 
 	public void onFinish(ITestContext testContext) {
-		//To-do something on further demand
+		//To-do something on further demand		
+		try {
+			if (killBrowserIfExistByBrowserType(browserType)){
+					System.out.println("Browser process(" + browserType + ") Killed by Raft on Test Finished!" );
+					//System.out.println("Test Method: <" + tr.getMethod().getMethodName() + ">Success!");
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	/**
