@@ -90,6 +90,37 @@ public class TestEngine {
 		
 		handleTestNGRun(testngFile); //call testng
 		outputTimeConsumption(System.currentTimeMillis(), startTime);
+		
+		// Keep default testNG report, default is false which means it will remove testng default report files
+		if (TestEngine.getGlobalMap().get("keepdefaultreport").toLowerCase().equals("false")){
+			//remove default TestNG report except testng-failed.xml for further investigation
+			File dir1 = new File (".");	
+			String reportdir = dir1.getCanonicalPath() + File.separator + TestEngine.getReportRootdir();
+			
+			//remove junit report folder
+			String junitpath = reportdir + "junitreports";
+			System.out.println("Deleting the junit default report: " + junitpath);
+			File junitdir = new File(junitpath);
+			deleteDir(junitdir);
+			
+			//remove TestNG default report folder
+			String Testngreportpath = reportdir + "NEWGLC";
+			System.out.println("Deleting the TestNG default report: " + Testngreportpath);
+			File testngreportdir = new File(Testngreportpath);
+			deleteDir(testngreportdir);
+			
+			//delete files generate by TestNG default listeners, keep only 2 files
+			File allfiles =  new File(reportdir);
+			 for (File f : allfiles.listFiles()){
+				 if (!f.isDirectory()){
+					 if((!f.getName().equalsIgnoreCase("testng-failed.xml")) && (!f.getName().equalsIgnoreCase("testReport.html"))){
+						 System.out.println("Deleting the files " + f.getName());
+						 f.delete();
+					 }
+				 }
+			  }
+			
+		}
 	}
 
 	/**
@@ -147,15 +178,25 @@ public class TestEngine {
 		
 		testng.setXmlSuites(allXmlSuites); 
 		testng.setOutputDirectory(reportRootdir);
-		testng.setUseDefaultListeners(false);
 		
-		//add TestNG listeners
+		testng.setUseDefaultListeners(true);
+		
+		//add customized TestNG listeners
 		testMethodStatusListener = new TestMethodStatusListener(); //enable obtained by forward operation
 		testng.addListener(testMethodStatusListener);
 		testng.addListener(new TestReportListener(testMethodStatusListener));
 		
 		testng.run();
 	}
+
+	public static void deleteDir(File f) throws IOException {
+		  if (f.isDirectory()) {
+		    for (File c : f.listFiles())
+		    	deleteDir(c);
+		  }
+		  if (!f.delete())
+		    throw new FileNotFoundException("Failed to delete file: " + f);
+		}
 
 	
 }
