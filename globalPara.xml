@@ -1,0 +1,12 @@
+<data>
+	<var name="browser">Firefox</var>
+	<var name="autoBrowserKiller">True</var>
+	<var name="TakingScreenshot">true</var>
+	<var name="arraySeparator">,</var>
+	<var name="globalRunCount">1</var>
+	<var name="keepdefaultreport">false</var>
+	
+	
+	<var name="username">demoadmin123</var>
+	<var name="pwd">123456</var>
+</data>
