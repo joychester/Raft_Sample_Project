@@ -112,8 +112,8 @@ public class WebDriverLoggingListener extends AbstractWebDriverEventListener {
 	public void beforeChangeValueOf(WebElement element, WebDriver driver) {
 		try{
 			logger.println(">>>");
-			if (!element.getValue().isEmpty())
-				logger.println(logDateFormat.format(new Date()) +	": WebElement (id=\"" + element.getAttribute("id") + "\" or name=\"" + element.getAttribute("name") + "\") value before changing: \"" + element.getValue() + "\"");
+			if (!element.getAttribute("value").isEmpty())
+				logger.println(logDateFormat.format(new Date()) +	": WebElement (id=\"" + element.getAttribute("id") + "\" or name=\"" + element.getAttribute("name") + "\") value before changing: \"" + element.getAttribute("value") + "\"");
 			else
 				logger.println(logDateFormat.format(new Date()) +	": WebElement (id=\"" + element.getAttribute("id") + "\" or name=\"" + element.getAttribute("name") + "\") value before changing: Null");
 		}catch (Throwable t){
@@ -122,8 +122,8 @@ public class WebDriverLoggingListener extends AbstractWebDriverEventListener {
     }
     public void afterChangeValueOf(WebElement element, WebDriver driver) {
     	try{
-	    	if (!element.getValue().isEmpty())
-	    		logger.println(logDateFormat.format(new Date()) +	": WebElement value after changing : \"" + element.getValue() + "\"");
+	    	if (!element.getAttribute("value").isEmpty())
+	    		logger.println(logDateFormat.format(new Date()) +	": WebElement value after changing : \"" + element.getAttribute("value") + "\"");
 	    	else
 	    		logger.println(logDateFormat.format(new Date()) +	": WebElement value after changing : Null");
     	}catch (Throwable t){
