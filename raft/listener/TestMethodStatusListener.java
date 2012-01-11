@@ -74,32 +74,7 @@ public class TestMethodStatusListener extends TestListenerAdapter {
 	 */
 	public void onStart(ITestContext testContext){
 		
-		try{
-			ITestNGMethod[] arr = testContext.getAllTestMethods();
-			Class<?> clazz =  arr[0].getRealClass();
-
-			//load one map for one test class
-			if( classMapMapping.get(clazz) == null ) {
-				String className = clazz.getName();
-				String localParaDir = TestEngine.getClassesRootdir(); //if no package name, put .class, .xml files under the same folder
-				if( className.indexOf(".") != -1 ) {
-					String strArr[] = className.split("\\.");
-					localParaDir = "";
-					for(int i=0; i<strArr.length-2; i++)
-						localParaDir += strArr[i] + File.separator;
-					localParaDir = TestEngine.getClassesRootdir() + localParaDir + strArr[strArr.length-2] + "_para" + File.separator; //if has ".", at least be split two parts. 
-				}
-				String localParaFile = localParaDir + className.substring(className.lastIndexOf(".")+1, className.length()) + ".xml";
-				
-				if( !new File(localParaFile).exists() ) {System.out.println("No local parameter file: " + localParaFile + " found."); return ; }
-				
-				System.out.println("Loading local parameters(" + localParaFile + ") ...");
-				
-				classMapMapping.put(clazz, XmlUtil.readXmlToMap(localParaFile, "//var", "name")); //test class <--> xml map data mapping
-			
-		}
-
-	}catch( Exception e ) { e.printStackTrace(); throw new RuntimeException(e); }
+		//To Do something in the future...
 	}
 	
 	/**
@@ -109,6 +84,35 @@ public class TestMethodStatusListener extends TestListenerAdapter {
 	 * 
 	 */
 	synchronized public void onTestStart(ITestResult result) {
+		// init classMapMapping to load local para 
+		Class<?> clazz =  result.getMethod().getRealClass();
+
+		//load one map for one test class
+		if( classMapMapping.get(clazz) == null ) {
+			String className = clazz.getName();
+			String localParaDir = TestEngine.getClassesRootdir(); //if no package name, put .class, .xml files under the same folder
+			if( className.indexOf(".") != -1 ) {
+				String strArr[] = className.split("\\.");
+				localParaDir = "";
+				for(int i=0; i<strArr.length-2; i++)
+					localParaDir += strArr[i] + File.separator;
+				localParaDir = TestEngine.getClassesRootdir() + localParaDir + strArr[strArr.length-2] + "_para" + File.separator; //if has ".", at least be split two parts. 
+			}
+			String localParaFile = localParaDir + className.substring(className.lastIndexOf(".")+1, className.length()) + ".xml";
+			
+			if( !new File(localParaFile).exists() ) {System.out.println("No local parameter file: " + localParaFile + " found."); return ; }
+			
+			System.out.println("Loading local parameters(" + localParaFile + ") ...");
+			
+			try {
+				classMapMapping.put(clazz, XmlUtil.readXmlToMap(localParaFile, "//var", "name"));
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} //test class <--> xml map data mapping
+		
+		}
+		
 		//Clean IE Browsers at first, if using IE as testing browser
 		try {
 			System.out.println("Test start: " + result);
