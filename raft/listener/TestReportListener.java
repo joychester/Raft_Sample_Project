@@ -24,7 +24,10 @@ import raft.engine.TestEngine;
  *
  */
 public class TestReportListener implements IReporter {
+	
+	static List<String> suitename = new ArrayList<String>();
 	PrintWriter reporter;
+	
 	private TestMethodStatusListener testMethodStatusListener;
 	
 	public TestMethodStatusListener getTestMethodStatusListener() {
@@ -38,6 +41,11 @@ public class TestReportListener implements IReporter {
 	{
 		this.testMethodStatusListener = testMethodStatusListener;
 	}
+	
+	public List<String> getTestSuiteName(){
+		return suitename;
+	}
+	
 	@Override
 	public void generateReport(List<XmlSuite> xmlSuites, List<ISuite> suites,
 			String outputDirectory) {
@@ -47,6 +55,7 @@ public class TestReportListener implements IReporter {
 			createHead(reporter, "");			
 			reporter.println("<body>");
 			for(ISuite suite: suites) {
+				suitename.add(suite.getName());
 				createSummary(suite);  //one suite one table
 				createDetail(suite);
 				reporter.println("<br/><br/>");
@@ -416,6 +425,3 @@ public class TestReportListener implements IReporter {
 	}
 	
 }
-
-
-
