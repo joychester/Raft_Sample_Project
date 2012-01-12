@@ -27,6 +27,7 @@ public class TestEngine {
 	private static Map<String, String> globalMap;
 	private static Map<String, String> PageFactoryMap;
 	private static TestMethodStatusListener testMethodStatusListener;
+	private static TestReportListener testReportListener;
 	
 	public static String getClassesRootdir() {
 		return classesRootdir;
@@ -104,10 +105,13 @@ public class TestEngine {
 			deleteDir(junitdir);
 			
 			//remove TestNG default report folder
-			String Testngreportpath = reportdir + "NEWGLC";
-			System.out.println("Deleting the TestNG default report: " + Testngreportpath);
-			File testngreportdir = new File(Testngreportpath);
-			deleteDir(testngreportdir);
+			List<String> suitenamelist = testReportListener.getTestSuiteName();
+			for(String suitename:suitenamelist){
+				String Testngreportpath = reportdir + suitename;
+				System.out.println("Deleting the TestNG default report: " + Testngreportpath);
+				File testngreportdir = new File(Testngreportpath);
+				deleteDir(testngreportdir);
+			}
 			
 			//delete files generate by TestNG default listeners, keep only 2 files
 			File allfiles =  new File(reportdir);
@@ -184,7 +188,8 @@ public class TestEngine {
 		//add customized TestNG listeners
 		testMethodStatusListener = new TestMethodStatusListener(); //enable obtained by forward operation
 		testng.addListener(testMethodStatusListener);
-		testng.addListener(new TestReportListener(testMethodStatusListener));
+		testReportListener = new TestReportListener(testMethodStatusListener);
+		testng.addListener(testReportListener);
 		
 		testng.run();
 	}
