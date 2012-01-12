@@ -19,8 +19,6 @@ import org.testng.xml.XmlSuite;
 import raft.engine.TestEngine;
 /**
  * User-define TestNG's report.
- * 
- * @author james.deng
  *
  */
 public class TestReportListener implements IReporter {
@@ -68,14 +66,12 @@ public class TestReportListener implements IReporter {
 			reporter.println("		currRef = null;");
 			reporter.println("		document.getElementById('exception-display').style.display = 'none';");
 			reporter.println("	} else {");
-					// Show");
 			reporter.println("		currRef = ref;");
 			reporter.println("		document.getElementById('exception-display').style.display = 'block';");
 			reporter.println("		document.getElementById('exception-display').innerHTML = ref.parentNode.getElementsByTagName('div').item(0).innerHTML;");
 			reporter.println("	}");
 			reporter.println("}");
 			reporter.println("</script>");
-
 			reporter.println("</body>");
 			reporter.println("</html>");
 			reporter.flush();
@@ -418,8 +414,7 @@ public class TestReportListener implements IReporter {
 			if(STARTTIME.equals(sortBy)) {
 					return String.valueOf(element1.getStartMillis()).compareTo(String.valueOf(element2.getStartMillis()));
 			}
-			
-			//System.out.println("methods sort by method name");
+
 			return element1.getMethod().getMethodName().compareTo(element2.getMethod().getMethodName());
 		}
 	}
